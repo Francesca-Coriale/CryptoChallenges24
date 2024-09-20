@@ -1,0 +1,17 @@
+{
+	"folders": [
+		{
+			"path": ".."
+		},
+		{
+			"path": "../.."
+		}
+	],
+	"settings": {
+		"files.associations": {
+			"evp.h": "c",
+			"crazy2.C": "cpp",
+			"crazyPerfect.C": "cpp"
+		}
+	}
+}

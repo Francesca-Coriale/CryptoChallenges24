@@ -1,0 +1,35 @@
+'''
+Created on Dec 14, 2011
+
+@author: pablocelayes
+'''
+
+import ContinuedFractions, Arithmetic
+
+def hack_RSA(e,n):
+    '''
+    Finds d knowing (e,n)
+    applying the Wiener continued fraction attack
+    '''
+    _, convergents = ContinuedFractions.rational_to_contfrac(e, n)
+    
+    for (k,d) in convergents:
+        
+        #check if d is actually the key
+        if k!=0 and (e*d-1)%k == 0:
+            phi = (e*d-1)//k
+            s = n - phi + 1
+            # check if the equation x^2 - s*x + n = 0
+            # has integer roots
+            discr = s*s - 4*n
+            if(discr>=0):
+                t = Arithmetic.is_perfect_square(discr)
+                if t!=-1 and (s+t)%2==0:
+                    print("Hacked!")
+                    return d
+
+
+n = 138728501052719695830997827983870257879591108626209095010716818754108501959050430927220695106906763908822395818876460759364322997020222845247478635848425558793671347756842735011885094468024344931360037542098264527076663690119553302046205282212602106990248442514444587909723612295871002063257141634196430659767
+e = 60016485563460433620911462871489753027091796150597697863772440338904706321535832359517415034149374289955681381097544059467926029963755494161141305994584249448583991034102694954139120453335603006006970009433124857766494518747385902016093339683987307620366742481560543776055295663835860818720290861634213881385
+d = hack_RSA(e,n)
+print(d)
